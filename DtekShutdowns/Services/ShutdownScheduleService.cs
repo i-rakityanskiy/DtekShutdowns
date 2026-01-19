@@ -6,12 +6,12 @@ namespace DtekShutdowns.Services;
 
 public class ShutdownScheduleService : IShutdownScheduleService
 {
-    private readonly GroupsConfig _groupsConfig;
+    private readonly HashSet<string> _availableGroups;
     private readonly ILogger<ShutdownScheduleService> _logger;
 
     public ShutdownScheduleService(IOptions<GroupsConfig> groupsConfig, ILogger<ShutdownScheduleService> logger)
     {
-        _groupsConfig = groupsConfig.Value;
+        _availableGroups = [.. groupsConfig.Value.AvailableGroups.Select(x => x.Replace(".", ""))];
         _logger = logger;
     }
 
@@ -51,6 +51,6 @@ public class ShutdownScheduleService : IShutdownScheduleService
             return false;
         }
 
-        return true;
+        return _availableGroups.Contains(group);
     }
 }
