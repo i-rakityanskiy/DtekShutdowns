@@ -12,9 +12,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<GroupsConfig>(configuration.GetSection(GroupsConfig.Name));
+builder.Services.Configure<DtekClientConfig>(configuration.GetSection(DtekClientConfig.Name));
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IShutdownScheduleService, ShutdownScheduleService>();
-builder.Services.AddSingleton<IScheduleProvider, MockScheduleProvider>();
+//builder.Services.AddSingleton<IScheduleProvider, MockScheduleProvider>();
+builder.Services.AddSingleton<IScheduleProvider, DtekScheduleProvider>();
 builder.Services.AddSingleton<IScheduleParser, ScheduleParser>();
+builder.Services.AddSingleton<IDtekPageParser, DtekPageParser>();
 
 var app = builder.Build();
 

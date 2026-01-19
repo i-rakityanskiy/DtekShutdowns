@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="DtekShutdowns.Tests/DtekShutdowns.Tests.csproj" Id="28a7cc8a-74d3-4000-ae4b-bef42b3c2b4e" />
   <Project Path="DtekShutdowns/DtekShutdowns.csproj" />
 </Solution>
