@@ -9,13 +9,13 @@ public class ShutdownScheduleService : IShutdownScheduleService
     private readonly HashSet<string> _availableGroups;
     private readonly ILogger<ShutdownScheduleService> _logger;
     private readonly IScheduleProvider _scheduleProvider;
-    private readonly IScheduleParser _scheduleParser;
+    private readonly IScheduleConverter _scheduleParser;
 
     public ShutdownScheduleService(
         IOptions<GroupsConfig> groupsConfig,
         ILogger<ShutdownScheduleService> logger,
         IScheduleProvider scheduleProvider,
-        IScheduleParser scheduleParser)
+        IScheduleConverter scheduleParser)
     {
         _availableGroups = [.. groupsConfig.Value.AvailableGroups.Select(x => x.Replace(".", ""))];
         _logger = logger;

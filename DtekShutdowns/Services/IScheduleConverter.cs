@@ -2,7 +2,7 @@
 
 namespace DtekShutdowns.Services;
 
-public interface IScheduleParser
+public interface IScheduleConverter
 {
     IEnumerable<ScheduleRecord> Parse(IEnumerable<RawScheduleRecord> schedule);
 }

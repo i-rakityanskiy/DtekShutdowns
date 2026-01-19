@@ -17,7 +17,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IShutdownScheduleService, ShutdownScheduleService>();
 //builder.Services.AddSingleton<IScheduleProvider, MockScheduleProvider>();
 builder.Services.AddSingleton<IScheduleProvider, DtekScheduleProvider>();
-builder.Services.AddSingleton<IScheduleParser, ScheduleParser>();
+builder.Services.AddSingleton<IScheduleConverter, ScheduleConverter>();
 builder.Services.AddSingleton<IDtekPageParser, DtekPageParser>();
 
 var app = builder.Build();

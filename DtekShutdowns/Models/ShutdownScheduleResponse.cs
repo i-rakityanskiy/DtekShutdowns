@@ -9,6 +9,8 @@ public record ScheduleRecord(string Period, ShutdownStatus Status);
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ShutdownStatus
 {
+    // ✅
     On,
+    // ❌
     Off,
 }
