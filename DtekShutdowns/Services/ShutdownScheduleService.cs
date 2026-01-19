@@ -1,4 +1,4 @@
-﻿
+﻿using DtekShutdowns.Models;
 using DtekShutdowns.Settings;
 using Microsoft.Extensions.Options;
 
@@ -8,11 +8,19 @@ public class ShutdownScheduleService : IShutdownScheduleService
 {
     private readonly HashSet<string> _availableGroups;
     private readonly ILogger<ShutdownScheduleService> _logger;
+    private readonly IScheduleProvider _scheduleProvider;
+    private readonly IScheduleParser _scheduleParser;
 
-    public ShutdownScheduleService(IOptions<GroupsConfig> groupsConfig, ILogger<ShutdownScheduleService> logger)
+    public ShutdownScheduleService(
+        IOptions<GroupsConfig> groupsConfig,
+        ILogger<ShutdownScheduleService> logger,
+        IScheduleProvider scheduleProvider,
+        IScheduleParser scheduleParser)
     {
         _availableGroups = [.. groupsConfig.Value.AvailableGroups.Select(x => x.Replace(".", ""))];
         _logger = logger;
+        _scheduleProvider = scheduleProvider;
+        _scheduleParser = scheduleParser;
     }
 
     public async ValueTask<ShutdownScheduleResult> GetSchedule(string group)
@@ -27,11 +35,13 @@ public class ShutdownScheduleService : IShutdownScheduleService
 
         try
         {
-            await Task.Delay(1000);
+            var schedule = await _scheduleProvider.GetSchedule(group);
+            var result = _scheduleParser.Parse(schedule).ToList();
+
             return new ShutdownScheduleResult
             {
                 Status = ResponseStatus.Success,
-                Result = new Models.ShutdownScheduleResponse()
+                Result = new ShutdownScheduleResponse(result)
             };
         }
         catch (Exception ex)

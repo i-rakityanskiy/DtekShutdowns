@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<GroupsConfig>(configuration.GetSection(GroupsConfig.Name));
 builder.Services.AddSingleton<IShutdownScheduleService, ShutdownScheduleService>();
+builder.Services.AddSingleton<IScheduleProvider, MockScheduleProvider>();
+builder.Services.AddSingleton<IScheduleParser, ScheduleParser>();
 
 var app = builder.Build();
 

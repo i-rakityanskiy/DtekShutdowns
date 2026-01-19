@@ -1,6 +1,14 @@
-﻿namespace DtekShutdowns.Models;
+﻿using System.Text.Json.Serialization;
 
-public record ShutdownScheduleResponse
+namespace DtekShutdowns.Models;
+
+public record ShutdownScheduleResponse(IEnumerable<ScheduleRecord> Data);
+
+public record ScheduleRecord(string Period, ShutdownStatus Status);
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum ShutdownStatus
 {
-    public IEnumerable<object> Data { get; set; }
+    On,
+    Off,
 }
