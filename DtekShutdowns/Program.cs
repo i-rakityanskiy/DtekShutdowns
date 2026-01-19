@@ -1,4 +1,8 @@
+using DtekShutdowns.Services;
+using DtekShutdowns.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -7,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<GroupsConfig>(configuration.GetSection(GroupsConfig.Name));
+builder.Services.AddSingleton<IShutdownScheduleService, ShutdownScheduleService>();
 
 var app = builder.Build();
 
