@@ -13,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<GroupsConfig>(configuration.GetSection(GroupsConfig.Name));
 builder.Services.Configure<DtekClientConfig>(configuration.GetSection(DtekClientConfig.Name));
+builder.Services.Configure<DtekScheduleProviderConfig>(configuration.GetSection(DtekScheduleProviderConfig.Name));
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 var useMockScheduleProvider = configuration.GetValue<bool>("UseMockScheduleProvider");
 if (useMockScheduleProvider)
