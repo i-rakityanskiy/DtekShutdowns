@@ -6,21 +6,23 @@ namespace DtekShutdowns.Services;
 
 public class DtekPageParser : IDtekPageParser
 {
+    private const string ScheduleVariableName = "DisconSchedule.fact";
+
     public DtekRawSchedule Parse(string htmlPage)
     {
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(htmlPage);
-        var scriptNode = htmlDoc.DocumentNode.SelectSingleNode("//script[contains(text(), 'DisconSchedule.fact')]");
+        var scriptNode = htmlDoc.DocumentNode.SelectSingleNode($"//script[contains(text(), '{ScheduleVariableName}')]");
         if (scriptNode == null)
         {
             throw new Exception("Could not find the schedule script node.");
         }
         string scriptContent = scriptNode.InnerText;
 
-        var fact = ExtractJsonFromScript(scriptContent, "DisconSchedule.fact");
+        var fact = ExtractJsonFromScript(scriptContent, ScheduleVariableName);
         if (fact == null)
         {
-            throw new Exception("DisconSchedule.fact not found");
+            throw new Exception($"{ScheduleVariableName} not found");
         }
 
         var (Today, Schedule) = DeserializeDtek(fact);
