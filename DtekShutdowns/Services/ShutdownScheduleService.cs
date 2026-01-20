@@ -17,7 +17,7 @@ public class ShutdownScheduleService : IShutdownScheduleService
         IScheduleProvider scheduleProvider,
         IScheduleConverter scheduleParser)
     {
-        _availableGroups = [.. groupsConfig.Value.AvailableGroups.Select(x => x.Replace(".", ""))];
+        _availableGroups = groupsConfig.Value.AvailableGroups;
         _logger = logger;
         _scheduleProvider = scheduleProvider;
         _scheduleParser = scheduleParser;
@@ -25,6 +25,8 @@ public class ShutdownScheduleService : IShutdownScheduleService
 
     public async ValueTask<ShutdownScheduleResult> GetSchedule(string group)
     {
+        group = group.Replace('-', '.');
+
         if (!IsValidGroup(group))
         {
             return new ShutdownScheduleResult

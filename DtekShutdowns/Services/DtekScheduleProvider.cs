@@ -32,7 +32,8 @@ public class DtekScheduleProvider : IScheduleProvider
     private async ValueTask<IEnumerable<RawScheduleRecord>> GetScheduleFromSite(string group)
     {
         var htmlPage = await GetShutdownsPage();
-        var result = _dtekPageParser.Parse(htmlPage).Schedule[group];
+        var schedules = _dtekPageParser.Parse(htmlPage);
+        var result = schedules.Schedule[group];
 
         return result;
     }
