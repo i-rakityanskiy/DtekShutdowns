@@ -1,5 +1,7 @@
 ﻿namespace DtekShutdowns.Models;
 
-public class DtekRawSchedule : Dictionary<string, IEnumerable<RawScheduleRecord>>
+public class DtekRawSchedule
 {
+    public required IReadOnlyDictionary<string, IReadOnlyList<RawScheduleRecord>> Schedule { get; init; }
+    public required DateTime Date { get; init; }
 }

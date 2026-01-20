@@ -29,6 +29,10 @@ public class ScheduleConverter : IScheduleConverter
                     yield return new ScheduleRecord($"{period:D2}:00-{period:D2}:29", ShutdownStatus.On);
                     yield return new ScheduleRecord($"{period:D2}:30-{period:D2}:59", ShutdownStatus.Off);
                     break;
+
+                default:
+                    yield return new ScheduleRecord($"{period:D2}:00-{period:D2}:59", ShutdownStatus.Unknown);
+                    break;
             }
         }
     }

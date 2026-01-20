@@ -13,4 +13,5 @@ public enum ShutdownStatus
     On,
     // ❌
     Off,
+    Unknown
 }
