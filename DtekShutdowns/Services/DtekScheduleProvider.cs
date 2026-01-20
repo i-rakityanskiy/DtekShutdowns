@@ -1,5 +1,4 @@
-﻿using DtekShutdowns.Models;
-using DtekShutdowns.Settings;
+﻿using DtekShutdowns.Settings;
 using Microsoft.Extensions.Options;
 
 namespace DtekShutdowns.Services;
@@ -20,7 +19,7 @@ public class DtekScheduleProvider : IScheduleProvider
         _dtekPageParser = dtekPageParser;
     }
 
-    public async ValueTask<IEnumerable<RawScheduleRecord>> GetSchedule(string group)
+    public async ValueTask<ScheduleProviderResponse> GetSchedule(string group)
     {
         // TODO: implement caching
 
@@ -29,13 +28,13 @@ public class DtekScheduleProvider : IScheduleProvider
         return result;
     }
 
-    private async ValueTask<IEnumerable<RawScheduleRecord>> GetScheduleFromSite(string group)
+    private async ValueTask<ScheduleProviderResponse> GetScheduleFromSite(string group)
     {
         var htmlPage = await GetShutdownsPage();
         var schedules = _dtekPageParser.Parse(htmlPage);
         var result = schedules.Schedule[group];
 
-        return result;
+        return new ScheduleProviderResponse(result, schedules.Date);
     }
 
     private async Task<string> GetShutdownsPage()

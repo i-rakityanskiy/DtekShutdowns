@@ -4,5 +4,5 @@ namespace DtekShutdowns.Services;
 
 public interface IScheduleConverter
 {
-    IEnumerable<ScheduleRecord> Parse(IEnumerable<RawScheduleRecord> schedule);
+    IEnumerable<ScheduleRecord> Parse(ScheduleProviderResponse schedule);
 }

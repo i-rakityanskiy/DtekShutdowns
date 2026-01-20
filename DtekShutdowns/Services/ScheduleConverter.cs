@@ -4,9 +4,9 @@ namespace DtekShutdowns.Services;
 
 public class ScheduleConverter : IScheduleConverter
 {
-    public IEnumerable<ScheduleRecord> Parse(IEnumerable<RawScheduleRecord> schedule)
+    public IEnumerable<ScheduleRecord> Parse(ScheduleProviderResponse schedule)
     {
-        foreach (var (rawPeriod, scheduleType) in schedule)
+        foreach (var (rawPeriod, scheduleType) in schedule.Schedule)
         {
             var period = rawPeriod - 1;
 

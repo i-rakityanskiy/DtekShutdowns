@@ -43,7 +43,7 @@ public class ShutdownScheduleService : IShutdownScheduleService
             return new ShutdownScheduleResult
             {
                 Status = ResponseStatus.Success,
-                Result = new ShutdownScheduleResponse(result)
+                Result = new ShutdownScheduleResponse(result, schedule.Date.ToShortDateString(), group)
             };
         }
         catch (Exception ex)

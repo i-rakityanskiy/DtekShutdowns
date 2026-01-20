@@ -5,9 +5,9 @@ namespace DtekShutdowns.Services;
 
 public class MockScheduleProvider : IScheduleProvider
 {
-    public async ValueTask<IEnumerable<RawScheduleRecord>> GetSchedule(string group)
+    public async ValueTask<ScheduleProviderResponse> GetSchedule(string group)
     {
-        return GetMockSchedule();
+        return new ScheduleProviderResponse(GetMockSchedule(), DateTime.Now);
     }
 
     private List<RawScheduleRecord> GetMockSchedule()

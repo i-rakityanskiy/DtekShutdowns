@@ -4,5 +4,5 @@ namespace DtekShutdowns.Services;
 
 public interface IScheduleProvider
 {
-    ValueTask<IEnumerable<RawScheduleRecord>> GetSchedule(string group);
+    ValueTask<ScheduleProviderResponse> GetSchedule(string group);
 }
