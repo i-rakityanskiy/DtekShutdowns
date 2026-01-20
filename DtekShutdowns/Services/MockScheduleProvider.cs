@@ -7,7 +7,7 @@ public class MockScheduleProvider : IScheduleProvider
 {
     public async ValueTask<ScheduleProviderResponse> GetSchedule(string group)
     {
-        return new ScheduleProviderResponse(GetMockSchedule(), DateTime.Now);
+        return new ScheduleProviderResponse(GetMockSchedule(), DateTime.Now, DateTime.Now.ToShortTimeString());
     }
 
     private List<RawScheduleRecord> GetMockSchedule()

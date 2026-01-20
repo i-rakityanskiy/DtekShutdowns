@@ -32,7 +32,7 @@ public class DtekScheduleProvider : IScheduleProvider
         var schedules = await GetAllSchedules();
         var result = schedules.Schedule[group];
 
-        return new ScheduleProviderResponse(result, schedules.Date);
+        return new ScheduleProviderResponse(result, schedules.Date, schedules.UpdateDate);
     }
 
     private async Task<DtekRawSchedule> GetAllSchedules()

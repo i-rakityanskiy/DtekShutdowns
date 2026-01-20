@@ -19,6 +19,7 @@ public class DtekPageParserTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal("19.01.2026", result.Date.ToString("dd.MM.yyyy"));
+        Assert.Equal("19.01.2026 15:00", result.UpdateDate);
         Assert.Equal(12, result.Schedule.Count);
         Assert.True(result.Schedule.All(item => item.Value.Count == 24));
         Assert.Equal(new RawScheduleRecord(1, DtekScheduleType.first), result.Schedule["5.1"][0]);

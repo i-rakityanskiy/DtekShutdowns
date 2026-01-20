@@ -2,4 +2,4 @@
 
 namespace DtekShutdowns.Services;
 
-public record ScheduleProviderResponse(IEnumerable<RawScheduleRecord> Schedule, DateTime Date);
+public record ScheduleProviderResponse(IEnumerable<RawScheduleRecord> Schedule, DateTime Date, string? UpdateDate);

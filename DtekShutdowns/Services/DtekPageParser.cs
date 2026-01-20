@@ -7,6 +7,7 @@ namespace DtekShutdowns.Services;
 public class DtekPageParser : IDtekPageParser
 {
     private const string ScheduleVariableName = "DisconSchedule.fact";
+    private const string PresetVariableName = "DisconSchedule.preset";
 
     public DtekRawSchedule Parse(string htmlPage)
     {
@@ -19,29 +20,31 @@ public class DtekPageParser : IDtekPageParser
         }
         string scriptContent = scriptNode.InnerText;
 
+        var (Today, Schedule) = ExtractSchedule(scriptContent);
+        var updateDate = ExtractUpdateDate(scriptContent);
+
+        return new DtekRawSchedule
+        {
+            Schedule = Schedule,
+            Date = Today,
+            UpdateDate = updateDate
+        };
+    }
+
+    private (DateTime Today, Dictionary<string, IReadOnlyList<RawScheduleRecord>> Schedule) ExtractSchedule(string scriptContent)
+    {
         var fact = ExtractJsonFromScript(scriptContent, ScheduleVariableName);
         if (fact == null)
         {
             throw new Exception($"{ScheduleVariableName} not found");
         }
 
-        var (Today, Schedule) = DeserializeDtek(fact);
-
-        return new DtekRawSchedule
-        {
-            Schedule = Schedule,
-            Date = Today
-        };
-    }
-
-    private (DateTime Today, Dictionary<string, IReadOnlyList<RawScheduleRecord>> Schedule) DeserializeDtek(string jsonString)
-    {
         // Deserialize the complex object
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        var root = JsonSerializer.Deserialize<DtekRoot>(jsonString, options);
+        var root = JsonSerializer.Deserialize<DtekRoot>(fact, options);
         if (root == null)
         {
-            throw new Exception($"Invalid JSON. Could not parse DTEK schedule. jsonString: {jsonString}");
+            throw new Exception($"Invalid JSON. Could not parse DTEK schedule. jsonString: {fact}");
         }
 
         // Access today's data using the 'today' timestamp provided in the JSON
@@ -65,6 +68,20 @@ public class DtekPageParser : IDtekPageParser
         }
 
         return (today, schedule);
+    }
+
+    private string? ExtractUpdateDate(string scriptContent)
+    {
+        // Extract last update date
+        var preset = ExtractJsonFromScript(scriptContent, PresetVariableName);
+        if (preset == null)
+        {
+            return null;
+        }
+
+        using JsonDocument doc = JsonDocument.Parse(preset);
+        var updateFact = doc.RootElement.GetProperty("updateFact").GetString();
+        return updateFact;
     }
 
     private DateTime CastToUADate(long unixTimestamp)

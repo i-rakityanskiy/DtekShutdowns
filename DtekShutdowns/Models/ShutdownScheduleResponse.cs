@@ -2,7 +2,7 @@
 
 namespace DtekShutdowns.Models;
 
-public record ShutdownScheduleResponse(IEnumerable<ScheduleRecord> Schedule, string Date, string group);
+public record ShutdownScheduleResponse(IEnumerable<ScheduleRecord> Schedule, string Date, string Group, string? UpdateDate);
 
 public record ScheduleRecord(string Period, ShutdownStatus Status);
 
